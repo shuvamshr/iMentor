@@ -11,7 +11,7 @@ struct MentorDetailView: View {
     
     var mentor: Mentor
     
-    @Binding var mentors: [Mentor]
+    @ObservedObject var mentorVM: MentorViewModel
     
     @State private var name: String = ""
     @State private var department: Department = .design
@@ -77,15 +77,11 @@ struct MentorDetailView: View {
     private func updateMentor() {
         let updatedMentor = Mentor(id: mentor.id, name: name, department: department, chatModel: chatModel)
         
-        if let index = mentors.firstIndex(where: {$0.id == mentor.id }) {
-            mentors[index] = updatedMentor
-        }
+        mentorVM.updateMentor(mentor: updatedMentor)
     }
     
     private func deleteMentor() {
-        if let index = mentors.firstIndex(where: {$0.id == mentor.id }) {
-            mentors.remove(at: index)
-        }
+        mentorVM.deleteMentor(mentor: mentor)
     }
     
     private func populateMentorDetails() {

@@ -9,7 +9,7 @@ import SwiftUI
 
 struct NewMentorView: View {
     
-    @Binding var mentors: [Mentor]
+    @ObservedObject var mentorVM: MentorViewModel
     
     @State private var name: String = ""
     @State private var department: Department = .design
@@ -70,6 +70,6 @@ struct NewMentorView: View {
     private func addNewMentor() {
         let newMentor = Mentor(name: name, department: department, chatModel: chatModel)
         
-        mentors.append(newMentor)
+        mentorVM.addNewMentor(mentor: newMentor)
     }
 }

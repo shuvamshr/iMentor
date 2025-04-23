@@ -9,18 +9,14 @@ import SwiftUI
 
 struct MentorView: View {
     
-    @State private var mentors: [Mentor] = [
-        Mentor(name: "Shuvam", department: .development, chatModel: .chatGpt),
-        Mentor(name: "Baki", department: .research, chatModel: .gemini),
-        Mentor(name: "Hiba", department: .design, chatModel: .llama),
-    ]
+    @StateObject private var mentorVM = MentorViewModel()
     
     var body: some View {
         NavigationStack {
             List {
-                ForEach(mentors) { mentor in
+                ForEach(mentorVM.mentors) { mentor in
                     NavigationLink {
-                        MentorDetailView(mentor: mentor, mentors: $mentors)
+                        MentorDetailView(mentor: mentor, mentorVM: mentorVM)
                     } label: {
                         MentorListItem(mentor: mentor)
                     }
@@ -30,7 +26,7 @@ struct MentorView: View {
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     NavigationLink {
-                        NewMentorView(mentors: $mentors)
+                        NewMentorView(mentorVM: mentorVM)
                     } label: {
                         Image(systemName: "plus.app")
                     }
