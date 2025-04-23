@@ -9,14 +9,14 @@ import SwiftUI
 
 struct MentorView: View {
     
-    @StateObject private var mentorVM = MentorViewModel()
+    @EnvironmentObject private var mentorVM: MentorViewModel
     
     var body: some View {
         NavigationStack {
             List {
                 ForEach(mentorVM.mentors) { mentor in
                     NavigationLink {
-                        MentorDetailView(mentor: mentor, mentorVM: mentorVM)
+                        MentorDetailView(mentor: mentor)
                     } label: {
                         MentorListItem(mentor: mentor)
                     }
@@ -26,7 +26,7 @@ struct MentorView: View {
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     NavigationLink {
-                        NewMentorView(mentorVM: mentorVM)
+                        NewMentorView()
                     } label: {
                         Image(systemName: "plus.app")
                     }
@@ -35,8 +35,4 @@ struct MentorView: View {
         }
     }
 
-}
-
-#Preview {
-    MentorView()
 }

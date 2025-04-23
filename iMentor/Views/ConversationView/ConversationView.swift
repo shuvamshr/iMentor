@@ -8,25 +8,14 @@
 import SwiftUI
 
 struct ConversationView: View {
+    
+    @EnvironmentObject private var mentorVM: MentorViewModel
+    
     var body: some View {
         NavigationStack {
             List {
-                NavigationLink {
-                    Text("Actual Converation")
-                } label: {
-                    Text("Conversation 1")
-                }
-                
-                NavigationLink {
-                    Text("Actual Converation")
-                } label: {
-                    Text("Conversation 1")
-                }
-                
-                NavigationLink {
-                    Text("Actual Converation")
-                } label: {
-                    Text("Conversation 1")
+                ForEach(mentorVM.mentors) { mentor in
+                    Text(mentor.name)
                 }
             }
             .navigationTitle("Conversation")
@@ -34,6 +23,3 @@ struct ConversationView: View {
     }
 }
 
-#Preview {
-    ConversationView()
-}

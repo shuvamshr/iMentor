@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct ContentView: View {
+    
+    @StateObject private var mentorVM = MentorViewModel()
+    
     var body: some View {
         TabView {
             Tab("Mentor", systemImage: "person.2.fill") {
@@ -17,8 +20,8 @@ struct ContentView: View {
                 ConversationView()
             }
             .badge(2)
-            
         }
+        .environmentObject(mentorVM)
     }
 }
 

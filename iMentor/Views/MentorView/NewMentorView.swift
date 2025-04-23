@@ -9,7 +9,7 @@ import SwiftUI
 
 struct NewMentorView: View {
     
-    @ObservedObject var mentorVM: MentorViewModel
+    @EnvironmentObject private var mentorVM: MentorViewModel
     
     @State private var name: String = ""
     @State private var department: Department = .design
