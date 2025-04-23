@@ -11,15 +11,10 @@ import SwiftUI
 struct Mentor: Identifiable {
     var id: UUID = UUID()
     var name: String
-    var department: String
+    var department: Department
     var chatModel: ChatModel
     var image: String = "default"
 }
 
-enum Department {
-    case design, development, research
-}
 
-enum ChatModel {
-    case chatGpt, gemini, llama
-}
+

@@ -1,15 +1,13 @@
 //
-//  MentorDetailView.swift
+//  NewMentorView.swift
 //  iMentor
 //
-//  Created by Shuvam Shrestha on 11/4/2025.
+//  Created by Shuvam Shrestha on 23/4/2025.
 //
 
 import SwiftUI
 
-struct MentorDetailView: View {
-    
-    var mentor: Mentor
+struct NewMentorView: View {
     
     @Binding var mentors: [Mentor]
     
@@ -20,6 +18,7 @@ struct MentorDetailView: View {
     @Environment(\.dismiss) private var dismiss
     
     var body: some View {
+        
         Form {
             Section {
                 TextField("Enter Name", text: $name)
@@ -48,62 +47,29 @@ struct MentorDetailView: View {
             } footer: {
                 Text("This will update the chat model")
             }
-            
-            Section {
-                Button("Delete Mentor", role: .destructive) {
-                    deleteMentor()
-                    dismiss()
-                }
-            }
         }
-        .navigationTitle("Mentor Detail")
+        .navigationTitle("New Mentor")
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .confirmationAction) {
                 Button("Save") {
-                    updateMentor()
+                    addNewMentor()
                     dismiss()
                 }
-                .disabled(isNameFieldEmpty || !dataHasChanged)
+                .disabled(isNameFieldEmpty)
             }
         }
         .toolbarVisibility(.hidden, for: .tabBar)
-        .onAppear {
-            populateMentorDetails()
-        }
-    }
-    
-    
-    private func updateMentor() {
-        let updatedMentor = Mentor(id: mentor.id, name: name, department: department, chatModel: chatModel)
-        
-        if let index = mentors.firstIndex(where: {$0.id == mentor.id }) {
-            mentors[index] = updatedMentor
-        }
-    }
-    
-    private func deleteMentor() {
-        if let index = mentors.firstIndex(where: {$0.id == mentor.id }) {
-            mentors.remove(at: index)
-        }
-    }
-    
-    private func populateMentorDetails() {
-        name = mentor.name
-        department = mentor.department
-        chatModel = mentor.chatModel
     }
     
     private var isNameFieldEmpty: Bool {
         name.isEmpty
     }
     
-    private var dataHasChanged: Bool {
-        if name != mentor.name || department != mentor.department || chatModel != mentor.chatModel {
-            true
-        } else {
-            false
-        }
+    
+    private func addNewMentor() {
+        let newMentor = Mentor(name: name, department: department, chatModel: chatModel)
+        
+        mentors.append(newMentor)
     }
 }
-

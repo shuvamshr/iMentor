@@ -10,9 +10,9 @@ import SwiftUI
 struct MentorView: View {
     
     @State private var mentors: [Mentor] = [
-        Mentor(name: "Shuvam", department: "Development", chatModel: .chatGpt),
-        Mentor(name: "Baki", department: "Research", chatModel: .gemini),
-        Mentor(name: "Hiba", department: "Design", chatModel: .llama),
+        Mentor(name: "Shuvam", department: .development, chatModel: .chatGpt),
+        Mentor(name: "Baki", department: .research, chatModel: .gemini),
+        Mentor(name: "Hiba", department: .design, chatModel: .llama),
     ]
     
     var body: some View {
@@ -20,7 +20,7 @@ struct MentorView: View {
             List {
                 ForEach(mentors) { mentor in
                     NavigationLink {
-                        MentorDetailView(mentor: mentor)
+                        MentorDetailView(mentor: mentor, mentors: $mentors)
                     } label: {
                         MentorListItem(mentor: mentor)
                     }
@@ -29,23 +29,16 @@ struct MentorView: View {
             .navigationTitle("Mentors")
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
-                    Button {
-                        addMentor()
+                    NavigationLink {
+                        NewMentorView(mentors: $mentors)
                     } label: {
                         Image(systemName: "plus.app")
                     }
-                   
                 }
-                
             }
         }
     }
-    
-    private func addMentor() {
-        let sampleMentor = Mentor(name: "Seb", department: "Design", chatModel: .gemini)
-        
-        mentors.append(sampleMentor)
-    }
+
 }
 
 #Preview {
