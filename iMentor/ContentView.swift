@@ -13,13 +13,13 @@ struct ContentView: View {
     
     var body: some View {
         TabView {
-            Tab("Mentor", systemImage: "person.2.fill") {
-                MentorView()
-            }
             Tab("Conversation", systemImage: "message.fill") {
                 ConversationView()
             }
             .badge(2)
+            Tab("Mentor", systemImage: "person.2.fill") {
+                MentorView()
+            }
         }
         .environmentObject(mentorVM)
     }

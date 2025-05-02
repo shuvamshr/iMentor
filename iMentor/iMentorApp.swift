@@ -13,5 +13,6 @@ struct iMentorApp: App {
         WindowGroup {
             ContentView()
         }
+        .modelContainer(for: Conversation.self)
     }
 }
