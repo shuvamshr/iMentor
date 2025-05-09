@@ -6,16 +6,18 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct MentorDetailView: View {
     
     var mentor: Mentor
     
-    @EnvironmentObject private var mentorVM: MentorViewModel
+    @Environment(\.modelContext) private var modelContext
     
     @State private var name: String = ""
     @State private var department: Department = .design
     @State private var chatModel: ChatModel = .chatGpt
+    @State private var showDeleteAlert: Bool = false
     
     @Environment(\.dismiss) private var dismiss
     
@@ -51,8 +53,7 @@ struct MentorDetailView: View {
             
             Section {
                 Button("Delete Mentor", role: .destructive) {
-                    deleteMentor()
-                    dismiss()
+                    showDeleteAlert = true
                 }
             }
         }
@@ -71,17 +72,26 @@ struct MentorDetailView: View {
         .onAppear {
             populateMentorDetails()
         }
+        .alert("Delete Mentor", isPresented: $showDeleteAlert) {
+            Button("Cancel", role: .cancel) { }
+            Button("Delete", role: .destructive) {
+                deleteMentor()
+                dismiss()
+            }
+        } message: {
+            Text("Are you sure you want to delete this mentor? This action cannot be undone.")
+        }
     }
     
     
     private func updateMentor() {
-        let updatedMentor = Mentor(id: mentor.id, name: name, department: department, chatModel: chatModel)
-        
-        mentorVM.updateMentor(mentor: updatedMentor)
+        mentor.name = name
+        mentor.department = department
+        mentor.chatModel = chatModel
     }
     
     private func deleteMentor() {
-        mentorVM.deleteMentor(mentor: mentor)
+        modelContext.delete(mentor)
     }
     
     private func populateMentorDetails() {

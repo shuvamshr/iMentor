@@ -19,25 +19,15 @@ struct MessageView: View {
     var body: some View {
         List {
             ForEach(conversation.messages) { message in
-                Section {
-                    Text(message.content)
-                } header: {
-                    if message.author == .mentor {
-                        HStack {
-                            Text(message.author.rawValue)
-                            Spacer()
-                        }
-                    } else {
-                        HStack {
-                            Spacer()
-                            Text(message.author.rawValue)
-                        }
-                    }
-                } footer: {
-                    Text(message.timestamp.formatted(date: .abbreviated, time: .shortened))
-                }
+                MessageBubble(message: message)
+                    .listRowSeparator(.hidden)
+                    .listRowBackground(Color.clear)
+                    .listRowInsets(EdgeInsets())
+                    .padding(.horizontal, 16)
             }
         }
+        .listStyle(.plain)
+        .navigationTitle(conversation.mentor.name)
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 Button {
@@ -51,14 +41,16 @@ struct MessageView: View {
             ToolbarItem(placement: .bottomBar) {
                 HStack {
                     TextField("Enter a message", text: $userMessage)
+                        .textFieldStyle(.roundedBorder)
                     Button {
                         sendMessage()
                     } label: {
                         Image(systemName: "arrow.right.circle.fill")
                             .foregroundStyle(Color.accentColor)
+                            .font(.title2)
                     }
                 }
-                .background(.white)
+                .padding(.horizontal)
             }
         }
         .toolbarVisibility(.hidden, for: .tabBar)

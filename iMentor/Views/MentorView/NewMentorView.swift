@@ -6,10 +6,11 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct NewMentorView: View {
     
-    @EnvironmentObject private var mentorVM: MentorViewModel
+    @Environment(\.modelContext) private var modelContext
     
     @State private var name: String = ""
     @State private var department: Department = .design
@@ -68,8 +69,17 @@ struct NewMentorView: View {
     
     
     private func addNewMentor() {
-        let newMentor = Mentor(name: name, department: department, chatModel: chatModel)
+        var image = ""
         
-        mentorVM.addNewMentor(mentor: newMentor)
+        switch name.lowercased() {
+        case "shuvam": image = "shuvam"
+        case "baki": image = "baki"
+        case "sebastian": image = "sebastian"
+        default: image = "default"
+        }
+        
+        let newMentor = Mentor(name: name, department: department, chatModel: chatModel, image: image)
+        
+        modelContext.insert(newMentor)
     }
 }

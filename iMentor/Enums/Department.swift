@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-enum Department: String, CaseIterable, Identifiable {
+enum Department: String, CaseIterable, Identifiable, Codable {
     case design = "Design"
     case development = "Development"
     case research = "Research"

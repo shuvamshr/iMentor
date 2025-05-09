@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-enum ChatModel: String, CaseIterable, Identifiable {
+enum ChatModel: String, CaseIterable, Identifiable, Codable {
     case chatGpt = "ChatGPT"
     case gemini = "Gemini"
     case llama = "Llama"

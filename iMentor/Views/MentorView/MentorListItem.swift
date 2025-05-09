@@ -13,11 +13,15 @@ struct MentorListItem: View {
     
     var body: some View {
         HStack(spacing: 16) {
-            mentor.department.icon
-                .frame(width: 40, height: 40)
-                .background(mentor.department.theme.opacity(0.2))
-                .foregroundStyle(mentor.department.theme)
-                .clipShape(RoundedRectangle(cornerRadius: 8))
+            Image(mentor.image)
+                .resizable()
+                .scaledToFill()
+                .frame(width: 44, height: 44)
+                .clipShape(Circle())
+                .overlay {
+                    Circle()
+                        .strokeBorder(mentor.department.theme, lineWidth: 2)
+                }
             VStack(alignment: .leading) {
                 Text(mentor.name)
                     .font(.headline)

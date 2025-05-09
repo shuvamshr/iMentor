@@ -6,15 +6,18 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct MentorView: View {
     
-    @EnvironmentObject private var mentorVM: MentorViewModel
+    @Query(sort: \Mentor.name) private var mentors: [Mentor]
+    
+    @State private var searchKeyword: String = ""
     
     var body: some View {
         NavigationStack {
             List {
-                ForEach(mentorVM.mentors) { mentor in
+                ForEach(mentors) { mentor in
                     NavigationLink {
                         MentorDetailView(mentor: mentor)
                     } label: {
@@ -28,10 +31,19 @@ struct MentorView: View {
                     NavigationLink {
                         NewMentorView()
                     } label: {
-                        Image(systemName: "plus.app")
+                        Image(systemName: "person.fill.badge.plus")
                     }
                 }
             }
+            .searchable(text: $searchKeyword)
+        }
+    }
+    
+    private var filteredMentors: [Mentor] {
+        if searchKeyword.isEmpty {
+            return mentors
+        } else {
+            return mentors.filter { $0.name.localizedCaseInsensitiveContains(searchKeyword) }
         }
     }
 

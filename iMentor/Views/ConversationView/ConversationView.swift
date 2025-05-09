@@ -16,6 +16,8 @@ struct ConversationView: View {
     
     @Query private var conversations: [Conversation] = []
     
+    @State private var newConversationSheet: Bool = false
+    
     var body: some View {
         NavigationStack {
             List {
@@ -23,27 +25,26 @@ struct ConversationView: View {
                     NavigationLink {
                         MessageView(conversation: conversation)
                     } label: {
-                        Text(conversation.name)
+                        ConversationListItem(conversation: conversation)
                     }
                     
                 }
-                Button("Start New Chat") {
-                    addNewConversation()
-                }
             }
             .navigationTitle("Conversation")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button {
+                        newConversationSheet.toggle()
+                    } label: {
+                        Label("Add New Mentor", systemImage: "plus.message.fill")
+                    }
+                }
+            }
+            .sheet(isPresented: $newConversationSheet) {
+                NewConversationView()
+            }
         }
     }
-    
-    private func addNewConversation() {
-        
-        let sampleMessage = Message(author: .mentor, content: "Hello. What do you need?")
-        
-        let newConversation = Conversation(name: "Shuvam", messages: [sampleMessage])
-        
-        modelContext.insert(newConversation)
-    }
-    
-    
 }
 

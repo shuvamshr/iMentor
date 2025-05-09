@@ -11,11 +11,11 @@ import SwiftData
 
 @Model
 class Conversation {
-    var name: String
+    var mentor: Mentor
     var messages: [Message]
     
-    init(name: String, messages: [Message]) {
-        self.name = name
+    init(mentor: Mentor, messages: [Message]) {
+        self.mentor = mentor
         self.messages = messages
     }
 }
@@ -26,7 +26,7 @@ class Message {
     var content: String
     var timestamp: Date = Date.now
     
-    var message: Message?
+    var conversation: Conversation?
     
     init(author: Author, content: String) {
         self.author = author

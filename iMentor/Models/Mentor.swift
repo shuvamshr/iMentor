@@ -6,15 +6,22 @@
 //
 
 import SwiftUI
+import SwiftData
 
-
-struct Mentor: Identifiable {
-    var id: UUID = UUID()
+@Model
+class Mentor {
     var name: String
     var department: Department
     var chatModel: ChatModel
-    var image: String = "default"
+    var image: String
+    var conversations: [Conversation] = []
+    
+    init(name: String, department: Department, chatModel: ChatModel, image: String = "default") {
+        self.name = name
+        self.department = department
+        self.chatModel = chatModel
+        self.image = image
+    }
 }
-
 
 
